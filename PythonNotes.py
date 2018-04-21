@@ -37,3 +37,38 @@ c = chr(ord('D') - ord('A'))
 from itertools import permutations
 list(permutations(range(2))) # [(0, 1), (1, 0)]
 list(permutations([3, 1, 4]))
+
+#Sorting! (taken from documentation mostly)
+""" sort(*, key = None, reverse = False) """
+l = [1,4,2,5,3]
+sorted(l) #returns a sorted isstance of l
+l.sort() #sorts l in place 
+# To do simple sorting, just provide a key to sort on
+student_tuples = [('john', 'A', 15),('jane', 'B', 12),
+				  ('dave', 'B', 10),]
+sorted(student_tuples, key=lambda student: student[2])   # sort by age
+# We can also use the operator module 
+from operator import itemgetter, attrgetter
+sorted(student_tuples, key=itemgetter(2))
+#[('dave', 'B', 10), ('jane', 'B', 12), ('john', 'A', 15)]
+sorted(student_objects, key=attrgetter('age'))
+#[('dave', 'B', 10), ('jane', 'B', 12), ('john', 'A', 15)]
+
+# We can also sort by multiple levels!
+sorted(student_tuples, key=itemgetter(1,2))
+#[('john', 'A', 15), ('dave', 'B', 10), ('jane', 'B', 12)]
+
+# By using the stable sort property, we can sort in steps
+			# sort on secondary key
+s = sorted(student_objects, key=attrgetter('age')) 
+			# now sort on primary key, descending
+sorted(s, key=attrgetter('grade'), reverse=True) 
+#[('dave', 'B', 10), ('jane', 'B', 12), ('john', 'A', 15)]
+
+# Finally, we can also sort using our good 'ol compare func way
+import functools
+def reverse_numeric(x, y):
+	return y-x  
+# return negative for <, 0 for ==, positive for > 
+sorted([5, 2, 4, 1, 3], key=functools.cmp_to_key(reverse_numeric))
+# [5, 4, 3, 2, 1]
